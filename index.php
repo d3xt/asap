@@ -11,15 +11,7 @@ require_once('asap/Asap.php');
 // 6. Send the html
 
 $asap = new Asap($_SERVER['REQUEST_URI']);
-
-$pages = $asap->getAllPages();
-var_dump($pages);
-
-die();
 $page = $asap->getCurrentPage();
-
-$asap->trigger('load', $page);
-
 $html = $page->render();
 
 echo $html;

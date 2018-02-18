@@ -1,17 +1,21 @@
 <?php
 
+require_once('AsapConfig.php');
 require_once('AsapPage.php');
+require_once('AsapPage404.php');
 
 class Asap {
-
-    /**@var string $url */
+    /** @var string $url */
     public $url;
 
-    /** @var string $rootDir */
-    protected $rootDir;
+    /** @var AsapConfig $config */
+    private $config;
 
+    /**
+     * @param string $url
+     */
     function __construct($url) {
-        $this->rootDir = dirname(__DIR__);
+        $this->config = AsapConfig::getInstance();
         $this->url = $url;
         //$this->filename = $this->rootDir . preg_replace('#(\?.*)$#', '', $url);
     }
@@ -20,7 +24,7 @@ class Asap {
      * @return AsapPage[]
      */
     public function getAllPages() {
-        $pageDir = $this->rootDir . DIRECTORY_SEPARATOR . 'pages';
+        $pageDir = $this->config->getPagesDir();
         $pages = $this->getPagesFromFolder($pageDir);
         return $pages;
     }
@@ -34,9 +38,19 @@ class Asap {
         foreach(scandir($folder) as $item) {
             if ($item == '.' || $item == '..') continue;
             $filepath = $folder . DIRECTORY_SEPARATOR . $item;
-            echo $filepath;
             if (is_file($filepath)) $pages[] = new AsapPage($filepath);
         }
         return $pages;
+    }
+
+    /** @return AsapPage */
+    public function getCurrentPage() {
+        $pages = $this->getAllPages();
+
+        foreach($pages as $page) {
+            if ($page->url === $this->url) return $page;
+        }
+
+        return new AsapPage404();
     }
 }
