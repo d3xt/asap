@@ -53,3 +53,13 @@
 ## Asap Plugin
 
 ??
+
+
+## Asap Admin
+
+* [ ] Create posts via an admin area
+
+
+## Asap Git
+
+* [ ] Versionin all changes in the admin using git
