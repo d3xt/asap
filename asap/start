@@ -1,0 +1,17 @@
+#!/bin/bash
+
+if [ "`which php`" = "" ]
+then
+    echo "We need php installed.";
+    exit 1;
+fi
+
+
+if [ ! -f "./index.php" ]
+then
+    echo "Please, run it from the root folder like: './asap/start'";
+    exit 1;
+fi
+
+
+php -S 0.0.0.0:8000
